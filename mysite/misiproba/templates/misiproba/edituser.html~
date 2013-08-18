@@ -1,0 +1,21 @@
+<h1>{{ user_name }}</h1>
+<form action="" method="post">{% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="fieldWrapper">
+        {{ form.user_email.errors }}
+        <label for="id_user_email">User email:</label>
+        {{ form.user_email }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.user_first_name.errors }}
+        <label for="id_user_first_name">User first name:</label>
+        {{ form.user_first_name }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.user_last_name.errors }}
+        <label for="id_user_last_name">User last name:</label>
+        {{ form.user_last_name }}
+    </div>
+    </div>
+	<input type="submit" value="Update" />
+</form>

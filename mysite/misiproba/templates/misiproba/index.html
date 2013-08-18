@@ -1,0 +1,30 @@
+{% if user_list %}
+	<table border="1" style="border-collapse:collapse">	
+	<tr>
+		<th>name</th>
+		<th>email</th>
+		<th>first name</th>
+		<th>last name</th>
+		<th>created at</th>
+		<th>updated at</th>
+		<th>action</th>
+	</tr>
+	{% for user in user_list %}
+		<tr>
+			<td>{{ user.user_name }}</td>		
+			<td>{{ user.user_email }}</td>		
+			<td>{{ user.user_first_name }}</td>		
+			<td>{{ user.user_last_name }}</td>		
+			<td>{{ user.created_at }}</td>		
+			<td>{{ user.updated_at }}</td>
+			<td><a href="{% url 'misiproba:edituser' user.id %}">edit</a> | 
+			<a href="{% url 'misiproba:deleteuser' user.id %}">delete</a></td>
+		</tr>	
+	{% endfor %}
+	</table>
+{% else %}
+	<p>No polls are available.</p>
+{% endif %}
+
+<!-- Hivatkozik a az url.py-ban beallitott name-re -->
+<a href="{% url 'misiproba:newuser' %}" >create new user</a>
