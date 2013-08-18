@@ -1,0 +1,25 @@
+{% if machine_list %}
+	<table border="1" style="border-collapse:collapse">	
+	<tr>
+		<th>name</th>
+		<th>description</th>
+		<th>created at</th>
+		<th>updated at</th>
+		<th>action</th>
+	</tr>
+	{% for machine in machine_list %}
+		<tr>
+			<td>{{ machine.machine_name }}</td>		
+			<td>{{ machine.machine_description }}</td>		
+			<td>{{ machine.created_at }}</td>		
+			<td>{{ machine.updated_at }}</td>
+			<td><a href="{% url 'approba:editmachine' machine.id %}">edit</a> | 
+			<a href="{% url 'approba:deletemachine' machine.id %}">delete</a></td>
+		</tr>	
+	{% endfor %}
+	</table>
+{% else %}
+	<p>No data are available.</p>
+{% endif %}
+
+<a href="{% url 'approba:newmachine' %}">Add machine</a>

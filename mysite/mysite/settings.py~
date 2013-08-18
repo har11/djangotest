@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'polls',
     'misiproba',
+    'approba',
 )
 
 # A sample logging configuration. The only tangible logging
