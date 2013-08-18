@@ -3,7 +3,7 @@ from approba.models import Machine, MachineForm
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-
+import datetime
 
 class IndexView(generic.ListView):
 	template_name = 'approba/index.html'
@@ -27,6 +27,7 @@ def newmachine(request):
 
 def editmachine(request, machine_id):
 	machine = get_object_or_404(Machine,pk=machine_id)
+	machine.updated_at = datetime.datetime.now()
 	if request.POST:
 		form = MachineForm(request.POST, instance=machine)
 		if form.is_valid():
