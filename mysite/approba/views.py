@@ -41,7 +41,8 @@ def editmachine(request, machine_id):
 	else:
 		form = MachineForm(instance=machine)	
 		return render(request,'approba/editmachine.html',{'form': form},)
-		
+
+@login_required (login_url='/approba/login')		
 def deletemachine(request, machine_id):
 	machine = get_object_or_404(Machine,pk=machine_id)
 	machine.delete()
