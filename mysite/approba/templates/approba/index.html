@@ -1,3 +1,9 @@
+{% if user.is_authenticated %}
+	<h2>Hello, {{ user }}</h2>	
+{% else %}
+	You are not logged in, log in <a href="{% url 'approba:login' %}">here</a>
+{% endif %}
+
 {% if machine_list %}
 	<table border="1" style="border-collapse:collapse">	
 	<tr>

@@ -52,3 +52,4 @@ def logout_view(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('approba:index'))
 	 # Redirect to a success page.
+	 

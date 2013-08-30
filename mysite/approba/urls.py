@@ -7,6 +7,6 @@ urlpatterns = patterns('',
     url(r'^newmachine', views.newmachine, name='newmachine'),
     url(r'^(?P<machine_id>\d+)/editmachine/$', views.editmachine, name='editmachine'),
     url(r'^(?P<machine_id>\d+)/deletemachine/$', views.deletemachine, name='deletemachine'),
-    url(r'^login/$', 'django.contrib.auth.views.login'),
-    url(r'^logout/$', views.logout_view, name='logout')
+    url(r'^login/$', 'django.contrib.auth.views.login',name='login'),
+    url(r'^logout/$', views.logout_view, name='logout'),
     )
