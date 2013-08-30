@@ -28,6 +28,7 @@ def newmachine(request):
 		form = MachineForm()
 	return render(request,'approba/newmachine.html',{'form': form},)
 
+@login_required (login_url='/approba/login')
 def editmachine(request, machine_id):
 	machine = get_object_or_404(Machine,pk=machine_id)
 	machine.updated_at = datetime.datetime.now()
