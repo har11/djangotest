@@ -7,12 +7,17 @@ import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-class IndexView(generic.ListView):
+class IndexView(generic.TemplateView):
 	template_name = 'approba/index.html'
+
+
+class machinelist(generic.ListView):
+	template_name = 'approba/machinelist.html'
 	context_object_name = 'machine_list'
 	
 	def get_queryset(self):
 		return Machine.objects.all()
+	
 
 @login_required (login_url='/approba/login')
 def newmachine(request):
@@ -25,7 +30,7 @@ def newmachine(request):
 			p.created_by = request.user
 			p.updated_by = p.created_by
 			p.save()
-			return HttpResponseRedirect(reverse('approba:index'))
+			return HttpResponseRedirect(reverse('approba:machinelist'))
 	else:
 		form = MachineForm()
 	return render(request,'approba/newmachine.html',{'form': form},)
@@ -40,7 +45,7 @@ def editmachine(request, machine_id):
 			p = form.save(commit=False)
 			p.updated_by = request.user
 			p.save()
-			return HttpResponseRedirect(reverse('approba:index'))
+			return HttpResponseRedirect(reverse('approba:machinelist'))
 	else:
 		form = MachineForm(instance=machine)	
 		return render(request,'approba/editmachine.html',{'form': form},)
@@ -49,7 +54,7 @@ def editmachine(request, machine_id):
 def deletemachine(request, machine_id):
 	machine = get_object_or_404(Machine,pk=machine_id)
 	machine.delete()
-	return HttpResponseRedirect(reverse('approba:index'))
+	return HttpResponseRedirect(reverse('approba:machinelist'))
 	
 def logout_view(request):
 	logout(request)
