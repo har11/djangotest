@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'polls',
     'misiproba',
     'approba',
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging

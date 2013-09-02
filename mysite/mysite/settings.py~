@@ -158,5 +158,3 @@ LOGGING = {
         },
     }
 }
-# Added on 2013.08.19 by Misi
-#LOGIN_URL = (r'^accounts/login/$', 'django.contrib.auth.views.login')
