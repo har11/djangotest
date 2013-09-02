@@ -22,6 +22,8 @@ def newmachine(request):
 		
 		if form.is_valid():
 			p = form.save(commit=False)
+			p.created_by = request.user
+			p.updated_by = p.created_by
 			p.save()
 			return HttpResponseRedirect(reverse('approba:index'))
 	else:
@@ -36,6 +38,7 @@ def editmachine(request, machine_id):
 		form = MachineForm(request.POST, instance=machine)
 		if form.is_valid():
 			p = form.save(commit=False)
+			p.updated_by = request.user
 			p.save()
 			return HttpResponseRedirect(reverse('approba:index'))
 	else:
