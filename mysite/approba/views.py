@@ -10,7 +10,6 @@ from django.contrib.auth.decorators import login_required
 class IndexView(generic.TemplateView):
 	template_name = 'approba/index.html'
 
-
 class machinelist(generic.ListView):
 	template_name = 'approba/machinelist.html'
 	context_object_name = 'machine_list'
