@@ -15,7 +15,7 @@ class machinelist(generic.ListView):
 	context_object_name = 'machine_list'
 	
 	def get_queryset(self):
-		return Machine.objects.all()
+		return Machine.objects.filter(created_by=self.request.user)
 	
 
 @login_required (login_url='/approba/login')

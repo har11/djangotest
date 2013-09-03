@@ -10,13 +10,12 @@ from django.contrib.auth.decorators import login_required
 class IndexView(generic.TemplateView):
 	template_name = 'approba/index.html'
 
-class machinelist(request):
+class machinelist(generic.ListView):
 	template_name = 'approba/machinelist.html'
 	context_object_name = 'machine_list'
-	@login_required (login_url='/approba/login')
 	
 	def get_queryset(self):
-		return Machine.objects.all()
+		return Machine.objects.filter(created_by=self.request.user)
 	
 
 @login_required (login_url='/approba/login')
