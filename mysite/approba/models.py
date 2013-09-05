@@ -17,6 +17,7 @@ class Machine(models.Model):
 class MachineForm(forms.ModelForm):
 	machine_name = forms.CharField(max_length=100)
 	machine_description = forms.CharField(max_length=1000)
+	
 	class Meta:
 		model = Machine
 		fields = ['machine_name','machine_description']

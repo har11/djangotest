@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
 
 class IndexView(generic.TemplateView):
 	template_name = 'approba/index.html'
@@ -28,8 +29,13 @@ def newmachine(request):
 			p = form.save(commit=False)
 			p.created_by = request.user
 			p.updated_by = p.created_by
-			p.save()
-			return HttpResponseRedirect(reverse('approba:machinelist'))
+
+			try:
+				p.save()
+			except IntegrityError:
+				form.errors["machine_name"] = ["You cannot register more machines with same name"]
+			else:
+				return HttpResponseRedirect(reverse('approba:machinelist'))
 	else:
 		form = MachineForm()
 	return render(request,'approba/newmachine.html',{'form': form},)
@@ -37,9 +43,12 @@ def newmachine(request):
 @login_required (login_url='/approba/login')
 def editmachine(request, machine_id):
 	machine = get_object_or_404(Machine,pk=machine_id)
+	
 	machine.updated_at = datetime.datetime.now()
 	if request.POST:
 		form = MachineForm(request.POST, instance=machine)
+		form.fields['machine_name'].widget.attrs['readonly'] = True	
+	
 		if form.is_valid():
 			p = form.save(commit=False)
 			p.updated_by = request.user
