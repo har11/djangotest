@@ -47,12 +47,19 @@ def editmachine(request, machine_id):
 	machine.updated_at = datetime.datetime.now()
 	if request.POST:
 		form = MachineForm(request.POST, instance=machine)
-		form.fields['machine_name'].widget.attrs['readonly'] = True	
 	
 		if form.is_valid():
 			p = form.save(commit=False)
 			p.updated_by = request.user
+			
+		try:		
 			p.save()
+		except IntegrityError:
+			form.errors["machine_name"] = ["You cannot register more machines with same name"]
+			
+			#In case of edit this extra row was needed for the validation comparing with the validation of the create form. I do not know why yet.
+			return render(request,'approba/editmachine.html',{'form': form},)
+		else:		
 			return HttpResponseRedirect(reverse('approba:machinelist'))
 	else:
 		form = MachineForm(instance=machine)	
