@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 import datetime
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, hashers
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 
@@ -80,6 +80,7 @@ def registration(request):
 		form = UserRegistrationForm(request.POST)
 		if form.is_valid():
 			p = form.save(commit=False)
+			p.password = hashers.make_password(p.password)
 			p.save()
 			return HttpResponseRedirect(reverse('approba:index'))
 		else:
