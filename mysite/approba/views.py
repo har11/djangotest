@@ -82,9 +82,18 @@ def registration(request):
 			p = form.save(commit=False)
 			p.password = hashers.make_password(p.password)
 			p.save()
+			
+			#Automated login after succesful registration
+			username = request.POST['username']
+			password = request.POST['password']
+			user = authenticate(username=username, password=password)
+			login(request, user)
+			
 			return HttpResponseRedirect(reverse('approba:index'))
 		else:
 			return render(request,'approba/registration.html',{'form': form},) 
+
 	else:
 		form = UserRegistrationForm()
 		return render(request,'approba/registration.html',{'form': form},) 
+		

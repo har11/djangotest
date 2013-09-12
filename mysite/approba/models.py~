@@ -22,7 +22,7 @@ class MachineForm(forms.ModelForm):
 		model = Machine
 		fields = ['machine_name','machine_description']
 		
-class UserRegistration(forms.ModelForm):
+class UserRegistrationForm(forms.ModelForm):
 	username = forms.CharField(max_length=30)
 	first_name = forms.CharField(max_length=30)
 	last_name = forms.CharField(max_length=30)
