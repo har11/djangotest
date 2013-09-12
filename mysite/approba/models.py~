@@ -13,3 +13,22 @@ class Machine(models.Model):
 	
 	class Meta:
 		unique_together = ("machine_name", "created_by")
+	
+class MachineForm(forms.ModelForm):
+	machine_name = forms.CharField(max_length=100)
+	machine_description = forms.CharField(max_length=1000)
+	
+	class Meta:
+		model = Machine
+		fields = ['machine_name','machine_description']
+		
+class UserRegistration(forms.ModelForm):
+	username = forms.CharField(max_length=30)
+	first_name = forms.CharField(max_length=30)
+	last_name = forms.CharField(max_length=30)
+	email = forms.EmailField()
+	password = forms.CharField(widget=forms.PasswordInput())
+	class Meta:
+		model = django.contrib.auth.models.User
+		fields = ['username','first_name','last_name','email','password']
+	

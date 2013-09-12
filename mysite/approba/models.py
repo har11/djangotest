@@ -21,3 +21,14 @@ class MachineForm(forms.ModelForm):
 	class Meta:
 		model = Machine
 		fields = ['machine_name','machine_description']
+		
+class UserRegistrationForm(forms.ModelForm):
+	username = forms.CharField(max_length=30)
+	first_name = forms.CharField(max_length=30)
+	last_name = forms.CharField(max_length=30)
+	email = forms.EmailField()
+	password = forms.CharField(widget=forms.PasswordInput())
+	class Meta:
+		model = django.contrib.auth.models.User
+		fields = ['username','first_name','last_name','email','password']
+	

@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^(?P<machine_id>\d+)/deletemachine/$', views.deletemachine, name='deletemachine'),
     url(r'^login/$', 'django.contrib.auth.views.login',name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
+    url(r'^registration/$', views.registration, name='registration'),
     )

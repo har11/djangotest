@@ -1,5 +1,5 @@
 from django.views import generic
-from approba.models import Machine, MachineForm
+from approba.models import Machine, MachineForm, UserRegistrationForm
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -74,5 +74,16 @@ def deletemachine(request, machine_id):
 def logout_view(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('approba:index'))
-	 # Redirect to a success page.
-	 
+
+def registration(request):
+	if request.POST:
+		form = UserRegistrationForm(request.POST)
+		if form.is_valid():
+			p = form.save(commit=False)
+			p.save()
+			return HttpResponseRedirect(reverse('approba:index'))
+		else:
+			return render(request,'approba/registration.html',{'form': form},) 
+	else:
+		form = UserRegistrationForm()
+		return render(request,'approba/registration.html',{'form': form},) 
