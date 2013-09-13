@@ -79,17 +79,21 @@ def registration(request):
 	if request.POST:
 		form = UserRegistrationForm(request.POST)
 		if form.is_valid():
-			p = form.save(commit=False)
-			p.password = hashers.make_password(p.password)
-			p.save()
+			if request.POST['password'] == request.POST['password_repeat']:
+				p = form.save(commit=False)
+				p.password = hashers.make_password(p.password)
+				p.save()
 			
-			#Automated login after succesful registration
-			username = request.POST['username']
-			password = request.POST['password']
-			user = authenticate(username=username, password=password)
-			login(request, user)
+				#Automated login after succesful registration
+				username = request.POST['username']
+				password = request.POST['password']
+				user = authenticate(username=username, password=password)
+				login(request, user)
 			
-			return HttpResponseRedirect(reverse('approba:index'))
+				return HttpResponseRedirect(reverse('approba:index'))
+			else:
+				form.errors["password"] = ["The 2 passwords do not match!"]
+				return render(request,'approba/registration.html',{'form': form},) 
 		else:
 			return render(request,'approba/registration.html',{'form': form},) 
 

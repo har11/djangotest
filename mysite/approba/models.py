@@ -28,6 +28,7 @@ class UserRegistrationForm(forms.ModelForm):
 	last_name = forms.CharField(max_length=30)
 	email = forms.EmailField()
 	password = forms.CharField(widget=forms.PasswordInput())
+	password_repeat = forms.CharField(widget=forms.PasswordInput())
 	class Meta:
 		model = django.contrib.auth.models.User
 		fields = ['username','first_name','last_name','email','password']
