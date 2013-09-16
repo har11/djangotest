@@ -1,7 +1,5 @@
 {% if user.is_authenticated %}
 	<h2>Hello, {{ user }}</h2>
-	<br>
-	<a href="{% url 'approba:logout' %}">Logout</a>	
 {% else %}
 	You are not logged in, log in <a href="{% url 'approba:login' %}">here</a>
 {% endif %}
