@@ -96,7 +96,7 @@ def registration(request):
 			
 				return HttpResponseRedirect(reverse('approba:index'))
 			else:
-				form.errors["password"] = "The 2 passwords do not match!"
+				form.errors["password"] = ["The 2 passwords do not match!"]
 				return render(request,'approba/registration.html',{'form': form},) 
 		else:
 			return render(request,'approba/registration.html',{'form': form},) 

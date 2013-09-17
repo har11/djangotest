@@ -22,7 +22,7 @@
 		{{form.email}}
 	</div>
 	<div class="fieldWrapper">
-		{{form.password.errors}}<br>
+		{{form.password.errors}}
 		<label for="password">Password</label>
 		{{form.password}}
 	</div>
