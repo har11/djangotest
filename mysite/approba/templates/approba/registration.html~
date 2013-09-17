@@ -1,4 +1,36 @@
-<form action="newmachine.html" method="post">{% csrf_token %}
-{{ form.as_p }}
+<form action="" method="post">{% csrf_token %}
+<!-- {{ form.as_p }} -->
+	{{ form.non_field_errors }}
+	<div class="fieldWrapper">
+		{{form.username.errors}}
+		<label for="username">User name</label>
+		{{form.username}}
+	</div>
+	<div class="fieldWrapper">
+		{{form.first_name.errors}}
+		<label for="first_name">First name</label>
+		{{form.first_name}}
+	</div>
+	<div class="fieldWrapper">
+		{{form.last_name.errors}}
+		<label for="last_name">Last name</label>
+		{{form.last_name}}
+	</div>
+	<div class="fieldWrapper">
+		{{form.email.errors}}
+		<label for="email">Email</label>
+		{{form.email}}
+	</div>
+	<div class="fieldWrapper">
+		{{form.password.errors}}<br>
+		<label for="password">Password</label>
+		{{form.password}}
+	</div>
+	<div class="fieldWrapper">
+		{{form.password_repeat.errors}}
+		<label for="password_repeat">Password repeat</label>
+		{{form.password_repeat}}
+	</div>
+	
 <input type="submit" value="Submit" />
 </form>

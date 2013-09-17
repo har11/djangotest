@@ -79,8 +79,8 @@ def registration(request):
 	if request.POST:
 		form = UserRegistrationForm(request.POST)
 		if form.is_valid():
-			if len(request.POST['password']) < 8:
-				form.errors["password"] = ["The password should contain at least 8 chars or digits"]
+			if len(request.POST['password']) < 4:
+				form.errors["password"] = "The password should contain at least 8 chars or digits"
 				return render(request,'approba/registration.html',{'form': form},) 
 				
 			elif request.POST['password'] == request.POST['password_repeat']:
@@ -96,7 +96,7 @@ def registration(request):
 			
 				return HttpResponseRedirect(reverse('approba:index'))
 			else:
-				form.errors["password"] = ["The 2 passwords do not match!"]
+				form.errors["password"] = "The 2 passwords do not match!"
 				return render(request,'approba/registration.html',{'form': form},) 
 		else:
 			return render(request,'approba/registration.html',{'form': form},) 
