@@ -11,5 +11,5 @@ urlpatterns = patterns('',
     url(r'^login/$', 'django.contrib.auth.views.login',name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^registration/$', views.registration, name='registration'),
-    url(r'^(?P<user_id>\d+)/userprofile/$', views.userprofile, name='userprofile'),
+    url(r'^userprofile/$', views.userprofile, name='userprofile'),
     )

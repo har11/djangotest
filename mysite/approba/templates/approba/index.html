@@ -2,7 +2,7 @@
 	<h2>Hello, {{ user }}</h2>
 	<br>
 	<a href="{% url 'approba:logout' %}">Logout</a>	
-	<p><a href="{% url 'approba:userprofile' user.id %}">Change my data</a></p>
+	<p><a href="{% url 'approba:userprofile'%}">Change my data</a></p>
 {% else %}
 	You are not logged in, log in <a href="{% url 'approba:login'%}?next={% url 'approba:index'%}">here</a> or <a href="{% url 'approba:registration'%}?next={% url 'approba:index'%}">register</a> 
 {% endif %}

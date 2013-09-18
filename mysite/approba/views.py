@@ -103,12 +103,12 @@ def registration(request):
 		return render(request,'approba/registration.html',{'form': form},) 
 
 @login_required (login_url='/approba/login')
-def userprofile(request,user_id):
+def userprofile(request):
+	user_id = request.user.id
 	user = get_object_or_404(User,pk=user_id)
 	
 	if request.POST:
 		form = UserProfileForm(request.POST, instance=user)
-	
 		if form.is_valid():
 			p = form.save(commit=False)
 			p.save()
