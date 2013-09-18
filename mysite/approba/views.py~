@@ -80,11 +80,10 @@ def registration(request):
 	if request.POST:
 		form = UserRegistrationForm(request.POST)
 		if form.is_valid():
-			if len(request.POST['password']) < 4:
-				form.errors["password"] = ["The password should contain at least 8 chars or digits"]
-				return render(request,'approba/registration.html',{'form': form},) 
-				
-			elif request.POST['password'] == request.POST['password_repeat']:
+			#test
+			password1 = self.cleaned_data.get('password')
+			#/test
+			if request.POST['password'] == request.POST['password_repeat']:
 				p = form.save(commit=False)
 				p.password = hashers.make_password(p.password)
 				p.save()
