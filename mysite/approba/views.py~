@@ -1,7 +1,7 @@
 from django.views import generic
 from approba.models import Machine, MachineForm, UserRegistrationForm, UserProfileForm
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 import datetime
 from django.contrib.auth import authenticate, login, logout, hashers
@@ -44,7 +44,11 @@ def newmachine(request):
 @login_required (login_url='/approba/login')
 def editmachine(request, machine_id):
 	machine = get_object_or_404(Machine,pk=machine_id)
-	
+	machine_user_id = machine.created_by_id
+	logged_in_user_id = request.user.id
+
+	if machine_user_id != logged_in_user_id:
+		raise Http404
 	machine.updated_at = datetime.datetime.now()
 	if request.POST:
 		form = MachineForm(request.POST, instance=machine)
@@ -69,8 +73,13 @@ def editmachine(request, machine_id):
 @login_required (login_url='/approba/login')		
 def deletemachine(request, machine_id):
 	machine = get_object_or_404(Machine,pk=machine_id)
-	machine.delete()
-	return HttpResponseRedirect(reverse('approba:machinelist'))
+	machine_user_id = machine.created_by_id
+	logged_in_user_id = request.user.id
+	if machine_user_id != logged_in_user_id:
+		raise Http404
+	else:
+		machine.delete()
+		return HttpResponseRedirect(reverse('approba:machinelist'))
 	
 def logout_view(request):
 	logout(request)
@@ -103,9 +112,9 @@ def registration(request):
 		return render(request,'approba/registration.html',{'form': form},) 
 
 @login_required (login_url='/approba/login')
-def userprofile(request,user_id):
+def userprofile(request):
+	user_id = request.user.id
 	user = get_object_or_404(User,pk=user_id)
-	print request.user.id
 	
 	if request.POST:
 		form = UserProfileForm(request.POST, instance=user)
