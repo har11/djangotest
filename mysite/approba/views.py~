@@ -1,5 +1,5 @@
 from django.views import generic
-from approba.models import Machine, MachineForm, UserRegistrationForm
+from approba.models import Machine, MachineForm, UserRegistrationForm, UserProfileForm
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -7,6 +7,7 @@ import datetime
 from django.contrib.auth import authenticate, login, logout, hashers
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.contrib.auth.models import User
 
 class IndexView(generic.TemplateView):
 	template_name = 'approba/index.html'
@@ -104,4 +105,23 @@ def registration(request):
 	else:
 		form = UserRegistrationForm()
 		return render(request,'approba/registration.html',{'form': form},) 
+
+@login_required (login_url='/approba/login')
+def userprofile(request,user_id):
+	user = get_object_or_404(User,pk=user_id)
+	
+	if request.POST:
+		form = UserProfileForm(request.POST, instance=user)
+	
+		if form.is_valid():
+			p = form.save(commit=False)
+			p.save()
+			return render(request,'approba/userprofile.html',{'form': form},)			 
+		else:
+			return render(request,'approba/userprofile.html',{'form': form},) 
+	else:
+		form = UserProfileForm(instance=user)	
+		return render(request,'approba/userprofile.html',{'form': form},)
+	
+
 		
