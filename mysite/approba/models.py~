@@ -32,6 +32,18 @@ class UserRegistrationForm(forms.ModelForm):
 	class Meta:
 		model = django.contrib.auth.models.User
 		fields = ['username','first_name','last_name','email','password']
+
+	def password_fields_check(self):
+		password1 = self.cleaned_data.get('password')
+		password2 = self.cleaned_data.get('password_repeat')
+		if password1 and password2:
+			if password1 != password2:
+				#raise forms.ValidationError("The two password fields didn't match.")
+				self.errors["password"] = ["The 2 passwords do not match!"]
+				return False
+			else:
+				return True
+				
 	
 class UserProfileForm(forms.ModelForm):
 	first_name = forms.CharField(max_length=30)
@@ -40,21 +52,3 @@ class UserProfileForm(forms.ModelForm):
 	class Meta:
 		model = django.contrib.auth.models.User
 		fields = ['first_name','last_name','email']
-
-class PasswordChangeForm(forms.ModuleForm):
-	old_password = forms.CharField(widget=forms.PasswordInput(),min_length=8, max_length=30)
-	password = forms.CharField(widget=forms.PasswordInput(),min_length=8, max_length=30)
-	password_repeat = forms.CharField(widget=forms.PasswordInput(),max_length=30)
-	class Meta:
-		model = django.contrib.auth.models.User
-		fields = ['password']
-		
-	#Using example from http://stackoverflow.com/questions/3226197/why-is-checking-if-two-passwords-match-in-django-so-complicated
-	def password_match(self):
-		password1 = self.cleaned_data.get('password')
-		password2 = self.cleaned_data.get('password_repeat')
-		if password1 and password2:
-			if password1 != password2:
-				raise forms.ValidationError(_("The two password fields didn't match."))
-		return password1
-

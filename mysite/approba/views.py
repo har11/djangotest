@@ -89,7 +89,7 @@ def registration(request):
 	if request.POST:
 		form = UserRegistrationForm(request.POST)
 		if form.is_valid():
-			if request.POST['password'] == request.POST['password_repeat']:
+			if form.password_fields_check():
 				p = form.save(commit=False)
 				p.password = hashers.make_password(p.password)
 				p.save()
@@ -102,11 +102,9 @@ def registration(request):
 			
 				return HttpResponseRedirect(reverse('approba:index'))
 			else:
-				form.errors["password"] = ["The 2 passwords do not match!"]
 				return render(request,'approba/registration.html',{'form': form},) 
 		else:
 			return render(request,'approba/registration.html',{'form': form},) 
-
 	else:
 		form = UserRegistrationForm()
 		return render(request,'approba/registration.html',{'form': form},) 

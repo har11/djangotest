@@ -32,6 +32,17 @@ class UserRegistrationForm(forms.ModelForm):
 	class Meta:
 		model = django.contrib.auth.models.User
 		fields = ['username','first_name','last_name','email','password']
+
+	def password_fields_check(self):
+		password1 = self.cleaned_data.get('password')
+		password2 = self.cleaned_data.get('password_repeat')
+		if password1 and password2:
+			if password1 != password2:
+				self.errors["password"] = ["The 2 passwords do not match!"]
+				return False
+			else:
+				return True
+				
 	
 class UserProfileForm(forms.ModelForm):
 	first_name = forms.CharField(max_length=30)
