@@ -93,13 +93,20 @@ def registration(request):
 				p = form.save(commit=False)
 				p.password = hashers.make_password(p.password)
 				p.save()
-			
+				
 				#Automated login after succesful registration
 				username = request.POST['username']
 				password = request.POST['password']
 				user = authenticate(username=username, password=password)
 				login(request, user)
-			
+				
+				#test email sending. It works in test env with command:
+				#python -m smtpd -n -c DebuggingServer localhost:1025
+				#Otherwise it drops error: [Errno 111] Connection refused
+				subject = 'Welcome'
+				message = 'It is nice to see you here'
+				user.email_user(subject, message, from_email=None)
+				
 				return HttpResponseRedirect(reverse('approba:index'))
 			else:
 				return render(request,'approba/registration.html',{'form': form},) 
@@ -125,6 +132,17 @@ def userprofile(request):
 	else:
 		form = UserProfileForm(instance=user)	
 		return render(request,'approba/userprofile.html',{'form': form},)
+
+def user_inactivate(request):
+	user_id = request.user.id
+	user = get_object_or_404(User,pk=user_id)
+	user.is_active = 0
+	user.save()
+	logout_view(request)
+	return HttpResponseRedirect(reverse('approba:index'))
+	
+	
+	
 	
 
 		

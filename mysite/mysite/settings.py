@@ -159,3 +159,7 @@ LOGGING = {
         },
     }
 }
+
+#Added by Misi to be able to test email sending:
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025

@@ -4,4 +4,4 @@
 </form>
 <a href="{% url 'approba:index' %}">Home</a>
 <a href="{% url 'approba:password_change' %}">Change password</a>
-<a href="{% url 'approba:user_inactivate' %}">Delete my user</a>
+<a href="{% url 'approba:user_inactivate' %}">Change password</a>
