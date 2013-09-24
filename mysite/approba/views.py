@@ -89,7 +89,7 @@ def registration(request):
 	if request.POST:
 		form = UserRegistrationForm(request.POST)
 		if form.is_valid():
-			if form.password_fields_check():
+			if form.password_fields_check() and form.email_unique_check():
 				p = form.save(commit=False)
 				p.password = hashers.make_password(p.password)
 				p.save()
@@ -133,6 +133,7 @@ def userprofile(request):
 		form = UserProfileForm(instance=user)	
 		return render(request,'approba/userprofile.html',{'form': form},)
 
+@login_required (login_url='/approba/login')
 def user_inactivate(request):
 	user_id = request.user.id
 	user = get_object_or_404(User,pk=user_id)

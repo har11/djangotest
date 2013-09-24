@@ -27,7 +27,7 @@ class UserRegistrationForm(forms.ModelForm):
 	first_name = forms.CharField(max_length=30)
 	last_name = forms.CharField(max_length=30)
 	email = forms.EmailField()
-	password = forms.CharField(widget=forms.PasswordInput(),min_length=8, max_length=30)
+	password = forms.CharField(widget=forms.PasswordInput(),min_length=1, max_length=30)
 	password_repeat = forms.CharField(widget=forms.PasswordInput(),max_length=30)
 	class Meta:
 		model = django.contrib.auth.models.User
@@ -43,7 +43,17 @@ class UserRegistrationForm(forms.ModelForm):
 			else:
 				return True
 				
-	
+	def email_unique_check(self):
+		email_input = self.cleaned_data.get('email')
+		
+		try:
+			users = django.contrib.auth.models.User.objects.filter(email=email_input)
+		except users.DoesNotExist:
+			return True
+		else:
+			self.errors["email"] = ["This email is used by another user"]
+			return False
+
 class UserProfileForm(forms.ModelForm):
 	first_name = forms.CharField(max_length=30)
 	last_name = forms.CharField(max_length=30)

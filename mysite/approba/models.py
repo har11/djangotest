@@ -43,7 +43,16 @@ class UserRegistrationForm(forms.ModelForm):
 			else:
 				return True
 				
-	
+	def email_unique_check(self):
+		email_input = self.cleaned_data.get('email')
+		
+		users = django.contrib.auth.models.User.objects.filter(email=email_input)
+		if len(users) == 0:
+			return True
+		else:
+			self.errors["email"] = ["This email is used by another user"]
+			return False
+
 class UserProfileForm(forms.ModelForm):
 	first_name = forms.CharField(max_length=30)
 	last_name = forms.CharField(max_length=30)
