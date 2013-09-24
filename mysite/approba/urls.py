@@ -15,4 +15,4 @@ urlpatterns = patterns('',
     #It works with password change done only, but it has to be defined in the root's (project) url.py
     url(r'^userprofile/password_change/$', "django.contrib.auth.views.password_change", name='password_change'),
     url(r'^userprofile/inactivation/$', views.user_inactivate, name='user_inactivate'),
-)
+ )
