@@ -1,6 +1,6 @@
 {% extends "base_generic.html" %}
 
-{% block title %}Machine list{% endblock %}
+{% block title %}Edit User profile{% endblock %}
 
 {% block page %} 
 	<form action="" method="post">{% csrf_token %}

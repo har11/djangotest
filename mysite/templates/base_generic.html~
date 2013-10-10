@@ -1,9 +1,14 @@
+{% load staticfiles %}
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>{% block title %}Approba{% endblock %}</title>
+		<link href="{% static 'approba/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
 	</head>
 	
 	<body>
+		<script src="http://code.jquery.com/jquery.js"></script>
+    	<script src="{% static 'approba/bootstrap/js/bootstrap.min.js' %}"</script>
 		{% block header %}
 			{% if user.is_authenticated %}
 				<h2>Hello, {{ user }}</h2>

@@ -5,7 +5,7 @@
 {% block page %} 
 	<form action="" method="post">{% csrf_token %}
 	{{ form.as_p }}
-	<input type="submit" value="Update" />
+	<input type="submit" value="Update" class="btn btn-primary"/>
 	</form>
 	<a href="{% url 'approba:index' %}">Home</a>
 	<a href="{% url 'approba:password_change' %}">Change password</a>
