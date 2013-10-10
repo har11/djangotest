@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block title %}New Machine{% endblock %}
-
+{% block header %}sadsfdsf{% endblock %}
 {% block page %} 
 	<form action="newmachine.html" method="post">{% csrf_token %}
 	{{ form.as_p }}
