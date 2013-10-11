@@ -12,15 +12,18 @@
 	    	<script src="{% static 'approba/bootstrap/js/bootstrap.min.js' %}"></script>
 			{% block header %}
 				{% if user.is_authenticated %}
-					<h2>Hello, {{ user }}</h2>
-					<br>
-					<a href="{% url 'approba:logout' %}">Logout</a>
-					<a href="{% url 'approba:index' %}">Home</a>	
-					<a href="{% url 'approba:userprofile'%}">Change my data</a>
+					<div class="btn-group">
+					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">{{ user }}<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="{% url 'approba:index' %}">Home</a></li>
+							<li><a href="{% url 'approba:userprofile'%}">Change my data</a></li>
+							<li><a href="{% url 'approba:machinelist' %}">List of machines</a></li>
+							<li><a href="{% url 'approba:logout' %}">Logout</a></li>
+						</ul>
+					</div>
 				{% else %}
 					You are not logged in, log in <a href="{% url 'approba:login'%}?next={% url 'approba:index'%}">here</a> or <a href="{% url 'approba:registration'%}?next={% url 'approba:index'%}">register</a> 
 				{% endif %}
-				<a href="{% url 'approba:machinelist' %}">List of machines</a>
 			{% endblock %}
 			{% block page %}{% endblock %}
 		</div>	
