@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+
+{% block title %}New Machine{% endblock %}
+
+{% block page %} 
+	<form action="newmachine.html" method="post">{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" value="Submit" class="btn btn-primary"/>
+	</form>
+{% endblock %}

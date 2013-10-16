@@ -4,10 +4,17 @@ from django.contrib.auth.decorators import login_required
 
 urlpatterns = patterns('',
     url(r'^$', views.IndexView.as_view(), name='index'),
+
     url(r'^machinelist', login_required(views.machinelist.as_view(),login_url='/approba/login'), name='machinelist'),
     url(r'^newmachine', views.newmachine, name='newmachine'),
     url(r'^(?P<machine_id>\d+)/editmachine/$', views.editmachine, name='editmachine'),
     url(r'^(?P<machine_id>\d+)/deletemachine/$', views.deletemachine, name='deletemachine'),
+    
+    url(r'^agrofieldlist', login_required(views.agrofieldlist.as_view(),login_url='/approba/login'), name='agrofieldlist'),
+    url(r'^newagrofield', views.newagrofield, name='newagrofield'),
+    url(r'^(?P<agrofield_id>\d+)/editagrofield/$', views.editagrofield, name='editagrofield'),
+    url(r'^(?P<agrofield_id>\d+)/deleteagrofield/$', views.deleteagrofield, name='deleteagrofield'),
+    
     url(r'^login/$', 'django.contrib.auth.views.login',name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^registration/$', views.registration, name='registration'),

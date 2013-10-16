@@ -1,5 +1,5 @@
 from django.views import generic
-from approba.models import Machine, MachineForm, UserRegistrationForm, UserProfileForm
+from approba.models import Machine, MachineForm, UserRegistrationForm, UserProfileForm, AgroField, AgroFieldForm
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
@@ -89,7 +89,7 @@ def registration(request):
 	if request.POST:
 		form = UserRegistrationForm(request.POST)
 		if form.is_valid():
-			if form.password_fields_check() and form.email_unique_check:
+			if form.password_fields_check() and form.email_unique_check():
 				p = form.save(commit=False)
 				p.password = hashers.make_password(p.password)
 				p.save()
@@ -141,8 +141,74 @@ def user_inactivate(request):
 	user.save()
 	logout_view(request)
 	return HttpResponseRedirect(reverse('approba:index'))
+# =========================================================================
+class agrofieldlist(generic.ListView):
+	template_name = 'approba/agrofieldlist.html'
+	context_object_name = 'agrofield_list'
 	
+	def get_queryset(self):
+		return AgroField.objects.filter(created_by=self.request.user)
+		
+@login_required (login_url='/approba/login')
+def newagrofield(request):
+	"""Add new agrofield"""
+	if request.method == 'POST':
+		form = AgroFieldForm(request.POST)
+		
+		if form.is_valid():
+			p = form.save(commit=False)
+			p.created_by = request.user
+			p.updated_by = p.created_by
+
+			try:
+				p.save()
+			except IntegrityError:
+				form.errors["name"] = ["You cannot register more agrofields with same name"]
+			else:
+				return HttpResponseRedirect(reverse('approba:agrofieldlist'))
+	else:
+		form = AgroFieldForm()
+	return render(request,'approba/newagrofield.html',{'form': form},)
+
+@login_required (login_url='/approba/login')
+def editagrofield(request, agrofield_id):
+	agrofield = get_object_or_404(AgroField,pk=agrofield_id)
+	agrofield_user_id = agrofield.created_by_id
+	logged_in_user_id = request.user.id
+
+	if agrofield_user_id != logged_in_user_id:
+		raise Http404
+	agrofield.updated_at = datetime.datetime.now()
+	if request.POST:
+		form = AgroFieldForm(request.POST, instance=agrofield)
 	
+		if form.is_valid():
+			p = form.save(commit=False)
+			p.updated_by = request.user
+			
+		try:		
+			p.save()
+		except IntegrityError:
+			form.errors["name"] = ["You cannot register more agrofields with same name"]			
+
+			#In case of edit this extra row was needed for the validation comparing with the validation of the create form. I do not know why yet.
+			return render(request,'approba/editagrofield.html',{'form': form},)
+		else:		
+			return HttpResponseRedirect(reverse('approba:agrofieldlist'))
+	else:
+		form = AgroFieldForm(instance=agrofield)	
+		return render(request,'approba/editagrofield.html',{'form': form},)
+
+@login_required (login_url='/approba/login')		
+def deleteagrofield(request, agrofield_id):
+	agrofield = get_object_or_404(AgroField,pk=agrofield_id)
+	agrofield_user_id = agrofield.created_by_id
+	logged_in_user_id = request.user.id
+	if agrofield_user_id != logged_in_user_id:
+		raise Http404
+	else:
+		agrofield.delete()
+		return HttpResponseRedirect(reverse('approba:agrofieldlist'))	
 	
 	
 

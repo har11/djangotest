@@ -1,0 +1,35 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Agrofield list{% endblock %}
+
+{% block page %} 
+	{% if agrofield_list %}
+		<table class = "table table-striped table-bordered table-hover">	
+		<tr>
+			<th>name</th>
+			<th>description</th>
+			<th>created at</th>
+			<th>created_by</th>
+			<th>updated at</th>
+			<th>updated_by</th>
+			<th>action</th>
+		</tr>
+		{% for agrofield in agrofield_list %}
+			<tr>
+				<td>{{ agrofield.name }}</td>		
+				<td>{{ agrofield.description }}</td>	
+				<td>{{ agrofield.created_at }}</td>
+				<td>{{ agrofield.created_by }}</td>
+				<td>{{ agrofield.updated_at }}</td>
+				<td>{{ agrofield.updated_by }}</td>
+				<td><a href="{% url 'approba:editagrofield' agrofield.id %}">edit</a> | 
+				<a href="{% url 'approba:deleteagrofield' agrofield.id %}">delete</a></td>
+			</tr>	
+		{% endfor %}
+		</table>
+	{% else %}
+		<p>No data are available.</p>
+	{% endif %}
+	
+	<a href="{% url 'approba:newagrofield' %}">Add agrofield</a>
+{% endblock %}

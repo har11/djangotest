@@ -60,3 +60,23 @@ class UserProfileForm(forms.ModelForm):
 	class Meta:
 		model = django.contrib.auth.models.User
 		fields = ['first_name','last_name','email']
+
+class AgroField(models.Model):
+	name = models.CharField(max_length=100)
+	description = models.CharField(max_length=1000)
+	created_at = models.DateTimeField(editable=False, default=datetime.datetime.now)
+	created_by = models.ForeignKey(django.contrib.auth.models.User,related_name='agrofield_created_by')
+	# a related_name NEM a hivatkozott mezo neve, hanem az FK neve!!!
+	updated_at = models.DateTimeField(editable=False, default=datetime.datetime.now)
+	updated_by = models.ForeignKey(django.contrib.auth.models.User,related_name='agrofield_updated_by')
+	
+	class Meta:
+		unique_together = ("name", "created_by")
+		
+class AgroFieldForm(forms.ModelForm):
+	name = forms.CharField(max_length=100)
+	description = forms.CharField(max_length=1000)
+	
+	class Meta:
+		model = AgroField
+		fields = ['name','description']
