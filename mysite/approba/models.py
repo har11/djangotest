@@ -87,6 +87,10 @@ class FieldOperation(models.Model):
 	operation = models.CharField(max_length=100)
 	quantity = models.PositiveIntegerField()
 	date = models.DateField()
+	created_at = models.DateTimeField(editable=False, default=datetime.datetime.now)
 	created_by = models.ForeignKey(django.contrib.auth.models.User,related_name='fieldoperation_created_by')
 	updated_at = models.DateTimeField(editable=False, default=datetime.datetime.now)
 	updated_by = models.ForeignKey(django.contrib.auth.models.User,related_name='fieldoperation_updated_by')
+	
+# class FieldOperationForm(forms.ModelForm):
+	
