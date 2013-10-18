@@ -15,6 +15,8 @@ urlpatterns = patterns('',
     url(r'^(?P<agrofield_id>\d+)/editagrofield/$', views.editagrofield, name='editagrofield'),
     url(r'^(?P<agrofield_id>\d+)/deleteagrofield/$', views.deleteagrofield, name='deleteagrofield'),
     
+	 url(r'^fieldoperations', login_required(views.fieldoperationlist.as_view(),login_url='/approba/login'), name='fieldoperations'),
+
     url(r'^login/$', 'django.contrib.auth.views.login',name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^registration/$', views.registration, name='registration'),

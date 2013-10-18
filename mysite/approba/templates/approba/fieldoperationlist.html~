@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Fieldoperation list{% endblock %}
+
+{% block page %} 
+	{% if fieldoperation_list %}
+		<table class = "table table-striped table-bordered table-hover">	
+		<tr>
+			<th>Machine</th>
+			<th>Agrofield</th>
+			<th>Operation</th>
+			<th>Quantity</th>
+			<th>Date</th>
+			<th>created at</th>
+			<th>created_by</th>
+			<th>updated at</th>
+			<th>updated_by</th>
+			<th>action</th>
+		</tr>
+		{% for fieldoperation in fieldoperation_list %}
+			<tr>
+				<td>{{ fieldoperation.machine }}</td>		
+				<td>{{ fieldoperation.agrofield }}</td>	
+				<td>{{ fieldoperation.operation }}</td>
+				<td>{{ fieldoperation.quantity }}</td>
+				<td>{{ fieldoperation.date }}</td>
+				<td>{{ fieldoperation.created_at }}</td>
+				<td>{{ fieldoperation.created_by }}</td>
+				<td>{{ fieldoperation.updated_at }}</td>
+				<td>{{ fieldoperation.updated_by }}</td>
+			</tr>	
+		{% endfor %}
+		</table>
+	{% else %}
+		<p>No data are available.</p>
+	{% endif %}
+	
+	<a href="{% url 'approba:new_fieldoperation' %}">Add agrofield</a>
+{% endblock %}

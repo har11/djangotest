@@ -141,7 +141,7 @@ def user_inactivate(request):
 	user.save()
 	logout_view(request)
 	return HttpResponseRedirect(reverse('approba:index'))
-# =========================================================================
+
 class agrofieldlist(generic.ListView):
 	template_name = 'approba/agrofieldlist.html'
 	context_object_name = 'agrofield_list'
@@ -210,6 +210,11 @@ def deleteagrofield(request, agrofield_id):
 		agrofield.delete()
 		return HttpResponseRedirect(reverse('approba:agrofieldlist'))	
 	
+class fieldoperationlist(generic.ListView):
+	template_name = 'approba/fieldoperationlist.html'
+	context_object_name = 'fieldoperation_list'
 	
+	def get_queryset(self):
+		return FieldOperation.objects.filter(created_by=self.request.user)	
 
 		

@@ -1,5 +1,5 @@
 from django.views import generic
-from approba.models import Machine, MachineForm, UserRegistrationForm, UserProfileForm, AgroField, AgroFieldForm
+from approba.models import Machine, MachineForm, UserRegistrationForm, UserProfileForm, AgroField, AgroFieldForm, FieldOperation
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
@@ -141,7 +141,7 @@ def user_inactivate(request):
 	user.save()
 	logout_view(request)
 	return HttpResponseRedirect(reverse('approba:index'))
-# =========================================================================
+
 class agrofieldlist(generic.ListView):
 	template_name = 'approba/agrofieldlist.html'
 	context_object_name = 'agrofield_list'
@@ -210,6 +210,11 @@ def deleteagrofield(request, agrofield_id):
 		agrofield.delete()
 		return HttpResponseRedirect(reverse('approba:agrofieldlist'))	
 	
+class fieldoperationlist(generic.ListView):
+	template_name = 'approba/fieldoperationlist.html'
+	context_object_name = 'fieldoperation_list'
 	
+	def get_queryset(self):
+		return FieldOperation.objects.filter(created_by=self.request.user)	
 
 		

@@ -11,10 +11,12 @@ urlpatterns = patterns('',
     url(r'^(?P<machine_id>\d+)/deletemachine/$', views.deletemachine, name='deletemachine'),
     
     url(r'^agrofieldlist', login_required(views.agrofieldlist.as_view(),login_url='/approba/login'), name='agrofieldlist'),
-    url(r'^agrofield', views.newagrofield, name='newagrofield'),
+    url(r'^newagrofield', views.newagrofield, name='newagrofield'),
     url(r'^(?P<agrofield_id>\d+)/editagrofield/$', views.editagrofield, name='editagrofield'),
     url(r'^(?P<agrofield_id>\d+)/deleteagrofield/$', views.deleteagrofield, name='deleteagrofield'),
     
+	 url(r'^fieldoperationlist', login_required(views.fieldoperationlist.as_view(),login_url='/approba/login'), name='fieldoperationlist'),
+
     url(r'^login/$', 'django.contrib.auth.views.login',name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^registration/$', views.registration, name='registration'),

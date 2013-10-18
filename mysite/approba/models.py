@@ -92,5 +92,17 @@ class FieldOperation(models.Model):
 	updated_at = models.DateTimeField(editable=False, default=datetime.datetime.now)
 	updated_by = models.ForeignKey(django.contrib.auth.models.User,related_name='fieldoperation_updated_by')
 	
-# class FieldOperationForm(forms.ModelForm):
+class FieldOperationForm(forms.ModelForm):
+	operation = forms.CharField(max_length=100)
+	quantity = forms.IntegerField(min_value=0)
+	date = forms.DateField
+	class Meta:
+		model = FieldOperation
+		fields = ['machine','agrofield','operation','quantity','date']
 	
+	#This is the way how we can filter for master data based on the user	
+	def __init__(self, *args, **kwargs):
+		user = kwargs.pop('user')
+		super(FieldOperationForm, self).__init__(*args, **kwargs)
+		self.fields['machine'].queryset = Machine.objects.filter(created_by=user)
+		self.fields['agrofield'].queryset = AgroField.objects.filter(created_by=user)
