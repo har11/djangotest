@@ -28,11 +28,13 @@
 				<td>{{ fieldoperation.created_by }}</td>
 				<td>{{ fieldoperation.updated_at }}</td>
 				<td>{{ fieldoperation.updated_by }}</td>
+				<td><a href="{% url 'approba:editagrofield' agrofield.id %}">edit</a> | 
+				<a href="{% url 'approba:deleteagrofield' agrofield.id %}">delete</a></td>
 			</tr>	
 		{% endfor %}
 		</table>
 	{% else %}
 		<p>No data are available.</p>
 	{% endif %}
-	<a href="{% url 'approba:newfieldoperation' %}">Add Field operation</a>
+	<a href="{% url 'approba:new_fieldoperation' %}">Add Field operation</a>
 {% endblock %}

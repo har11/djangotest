@@ -234,3 +234,39 @@ def new_fieldoperation(request):
 		form = FieldOperationForm(user=request.user)
 	return render(request,'approba/newfieldoperation.html',{'form': form},)
 		
+#==============================================================================================
+@login_required (login_url='/approba/login')
+def editfieldoperation(request, fieldoperation_id):
+	fieldoperation = get_object_or_404(FieldOperation,pk=fieldoperation_id)
+	fieldoperation_user_id = fieldoperation.created_by_id
+	logged_in_user_id = request.user.id
+
+	if fieldoperation_user_id != logged_in_user_id:
+		raise Http404
+	fieldoperation.updated_at = datetime.datetime.now()
+	if request.POST:
+		
+		form = FieldOperationForm(user=request.user, data=request.POST)
+	
+		if form.is_valid():
+			p = form.save(commit=False)
+			p.updated_by = request.user
+			p.created_by = request.user #WTF?
+					
+			p.save()
+			return HttpResponseRedirect(reverse('approba:fieldoperations'))
+	else:
+		form = FieldOperationForm(user=request.user)	
+		return render(request,'approba/editfieldoperation.html',{'form': form},)
+
+@login_required (login_url='/approba/login')		
+def deletefieldoperation(request, fieldoperation_id):
+	fieldoperation = get_object_or_404(FieldOperation,pk=fieldoperation_id)
+	fieldoperation_user_id = fieldoperation.created_by_id
+	logged_in_user_id = request.user.id
+	if fieldoperation_user_id != logged_in_user_id:
+		raise Http404
+	else:
+		fieldoperation.delete()
+		return HttpResponseRedirect(reverse('approba:fieldoperations'))	
+	

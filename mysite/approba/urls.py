@@ -17,6 +17,8 @@ urlpatterns = patterns('',
     
 	 url(r'^fieldoperations', login_required(views.fieldoperationlist.as_view(),login_url='/approba/login'), name='fieldoperations'),
 	 url(r'^newfieldoperation', views.new_fieldoperation, name='new_fieldoperation'),
+    url(r'^(?P<fieldoperation_id>\d+)/editfieldoperation/$', views.editfieldoperation, name='editfieldoperation'),
+    url(r'^(?P<fieldoperation_id>\d+)/deletefieldoperation/$', views.deletefieldoperation, name='deletefieldoperation'),
 
     url(r'^login/$', 'django.contrib.auth.views.login',name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),

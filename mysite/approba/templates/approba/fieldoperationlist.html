@@ -28,6 +28,8 @@
 				<td>{{ fieldoperation.created_by }}</td>
 				<td>{{ fieldoperation.updated_at }}</td>
 				<td>{{ fieldoperation.updated_by }}</td>
+				<td><a href="{% url 'approba:editfieldoperation' fieldoperation.id %}">edit</a> | 
+				<a href="{% url 'approba:deletefieldoperation' fieldoperation.id %}">delete</a></td>
 			</tr>	
 		{% endfor %}
 		</table>
