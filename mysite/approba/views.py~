@@ -1,5 +1,5 @@
 from django.views import generic
-from approba.models import Machine, MachineForm, UserRegistrationForm, UserProfileForm, AgroField, AgroFieldForm
+from approba.models import Machine, MachineForm, UserRegistrationForm, UserProfileForm, AgroField, AgroFieldForm, FieldOperation, FieldOperationForm
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
@@ -217,4 +217,20 @@ class fieldoperationlist(generic.ListView):
 	def get_queryset(self):
 		return FieldOperation.objects.filter(created_by=self.request.user)	
 
+@login_required (login_url='/approba/login')
+def new_fieldoperation(request):
+	"""Add new fieldoperation"""
+	if request.method == 'POST':
+		form = FieldOperationForm(user=request.user, data=request.POST)
+		
+		if form.is_valid():
+			p = form.save(commit=False)
+			p.created_by = request.user
+			p.updated_by = p.created_by
+
+			p.save()
+			return HttpResponseRedirect(reverse('approba:fieldoperations'))
+	else:
+		form = FieldOperationForm(user=request.user)
+	return render(request,'approba/newfieldoperation.html',{'form': form},)
 		

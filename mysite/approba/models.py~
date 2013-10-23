@@ -14,6 +14,9 @@ class Machine(models.Model):
 	class Meta:
 		unique_together = ("machine_name", "created_by")
 	
+	def __unicode__(self):
+		return u'%s' % (self.machine_name)
+        
 class MachineForm(forms.ModelForm):
 	machine_name = forms.CharField(max_length=100)
 	machine_description = forms.CharField(max_length=1000)
@@ -72,6 +75,10 @@ class AgroField(models.Model):
 	
 	class Meta:
 		unique_together = ("name", "created_by")
+
+	def __unicode__(self):
+		return u'%s' % (self.name,self.description)
+
 		
 class AgroFieldForm(forms.ModelForm):
 	name = forms.CharField(max_length=100)
@@ -98,6 +105,7 @@ class FieldOperationForm(forms.ModelForm):
 	date = forms.DateField
 	class Meta:
 		model = FieldOperation
+		fields = ['machine','agrofield','operation','quantity','date']
 	
 	#This is the way how we can filter for master data based on the user	
 	def __init__(self, *args, **kwargs):
